@@ -16,6 +16,8 @@ pipeline {
         // GIT_COMMIT = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         // TIMESTAMP = new Date().format("yyyyMMdd-HHmmss")
 
+
+
         IMAGE_TAG = "v1.0.$BUILD_NUMBER"
         IMAGE_BASE_NAME = "netflix-frontend"
 
