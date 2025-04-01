@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+       label 'general'
+    }
 
     stages {
         stage('Tests before build') {
@@ -11,14 +13,22 @@ pipeline {
              }
              stage('Lint') {
                  steps {
-                     sh 'echo linting...'
+                     sh '''
+                        docker build -t lint-test-img .
+                        docker run lint-test-img npm run lint
+                     '''
+                 }
+                 post {
+                    always {
+                        sh 'docker image rm lint-test-img || true'
+                    }
                  }
              }
             }
         }
         stage('Build and deploy to Test environment') {
             steps {
-                sh 'echo trigger build and deploy pipelines for test environment... wait until successful deployment'
+         sh 'echo trigger build and deploy pipelines for test environment... wait until successful deployment'
             }
         }
         stage('Tests after build') {
